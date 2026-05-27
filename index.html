@@ -15,8 +15,8 @@ h1{font-size:22px;font-weight:500;margin-bottom:4px}
 .metric-label{font-size:12px;color:#888;margin-bottom:4px}
 .metric-value{font-size:22px;font-weight:500}
 .metric-sub{font-size:11px;color:#aaa;margin-top:2px}
-.tabs{display:flex;gap:4px;margin-bottom:20px;border-bottom:1px solid #e8e8e8;padding-bottom:0}
-.tab{padding:8px 18px;font-size:13px;cursor:pointer;border:none;background:none;color:#888;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabs{display:flex;gap:2px;margin-bottom:20px;border-bottom:1px solid #e8e8e8;padding-bottom:0;flex-wrap:wrap}
+.tab{padding:8px 16px;font-size:13px;cursor:pointer;border:none;background:none;color:#888;border-bottom:2px solid transparent;margin-bottom:-1px}
 .tab.active{color:#1a1a1a;border-bottom:2px solid #378ADD;font-weight:500}
 .tab:hover:not(.active){color:#333}
 .panel{display:none}.panel.active{display:block}
@@ -35,7 +35,7 @@ h1{font-size:22px;font-weight:500;margin-bottom:4px}
 .badge{display:inline-block;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:500}
 .badge-red{background:#FCEBEB;color:#A32D2D}
 .badge-blue{background:#E6F1FB;color:#185FA5}
-.legend{display:flex;gap:16px;font-size:12px;color:#666;margin-bottom:12px;align-items:center}
+.legend{display:flex;gap:16px;font-size:12px;color:#666;margin-bottom:12px;align-items:center;flex-wrap:wrap}
 .legend-dot{width:12px;height:12px;border-radius:2px;display:inline-block;margin-right:4px;vertical-align:middle}
 .pert-table{border-collapse:collapse;width:100%;font-size:12px}
 .pert-table th{background:#f5f5f5;padding:6px 10px;font-weight:500;color:#666;text-align:center;border:1px solid #e8e8e8}
@@ -61,6 +61,8 @@ h1{font-size:22px;font-weight:500;margin-bottom:4px}
 .pen-chip{display:inline-block;padding:1px 8px;border-radius:6px;background:#FFF3CD;color:#856404;font-weight:500;font-size:11px}
 .pen-chip-col{background:#D1F0E8;color:#0F6E56}
 .crit-path{margin-top:16px;padding:12px 16px;background:#FFF5F5;border-radius:10px;font-size:12px;color:#A32D2D;font-weight:500;border:1px solid #F7C1C1}
+.net-wrap{background:#fff;border-radius:12px;border:1px solid #e8e8e8;padding:16px;overflow-x:auto}
+.net-wrap svg{min-width:600px}
 </style>
 </head>
 <body>
@@ -74,16 +76,18 @@ h1{font-size:22px;font-weight:500;margin-bottom:4px}
   <div class="metric"><div class="metric-label">Ruta crítica</div><div class="metric-value" style="color:#E24B4A">15</div><div class="metric-sub">actividades críticas</div></div>
   <div class="metric"><div class="metric-label">Costo proyecto</div><div class="metric-value" style="font-size:16px">$17.15M</div><div class="metric-sub">presupuesto: $18.5M</div></div>
   <div class="metric"><div class="metric-label">Costo transporte</div><div class="metric-value" style="font-size:16px">$16.8M</div><div class="metric-sub">solución Vogel</div></div>
-  <div class="metric"><div class="metric-label">Prendas distribuidas</div><div class="metric-value">4.700</div><div class="metric-sub">balanceado ✓</div></div>
+  <div class="metric"><div class="metric-label">Prendas distribuidas</div><div class="metric-value">4.700</div><div class="metric-sub">balanceado</div></div>
 </div>
 
 <div class="tabs">
   <button class="tab active" onclick="showTab('gantt',this)"><i class="ti ti-calendar"></i> Gantt</button>
   <button class="tab" onclick="showTab('pert',this)"><i class="ti ti-network"></i> PERT/CPM</button>
   <button class="tab" onclick="showTab('transport',this)"><i class="ti ti-truck"></i> Transporte</button>
+  <button class="tab" onclick="showTab('red',this)"><i class="ti ti-chart-dots"></i> Red de nodos</button>
   <button class="tab" onclick="showTab('costos',this)"><i class="ti ti-chart-bar"></i> Costos</button>
 </div>
 
+<!-- ══ GANTT ══════════════════════════════════════════ -->
 <div id="panel-gantt" class="panel active">
   <div class="legend">
     <span><span class="legend-dot" style="background:#E24B4A"></span>Ruta crítica</span>
@@ -101,10 +105,11 @@ h1{font-size:22px;font-weight:500;margin-bottom:4px}
   </div>
 </div>
 
+<!-- ══ PERT ═══════════════════════════════════════════ -->
 <div id="panel-pert" class="panel">
-  <div class="section-title">Análisis PERT/CPM — valores ES, EF, LS, LF y holgura</div>
+  <div class="section-title">Análisis PERT/CPM — ES, EF, LS, LF y holgura</div>
   <div class="legend">
-    <span><span class="legend-dot" style="background:#FFF5F5;border:1px solid #E24B4A"></span>Ruta crítica (holgura = 0)</span>
+    <span><span class="legend-dot" style="background:#fff5f5;border:1px solid #E24B4A"></span>Ruta crítica (holgura = 0)</span>
   </div>
   <div style="overflow-x:auto;background:#fff;border-radius:10px;border:1px solid #e8e8e8">
     <table class="pert-table">
@@ -119,6 +124,7 @@ h1{font-size:22px;font-weight:500;margin-bottom:4px}
   <div class="crit-path">Ruta crítica: A → B → C → F → G → H → I → M → N → O → P → Q → R → S → T &nbsp;|&nbsp; 46 días</div>
 </div>
 
+<!-- ══ TRANSPORTE ══════════════════════════════════════ -->
 <div id="panel-transport" class="panel">
   <div class="section-title">Distribución óptima — método de Vogel</div>
   <div class="transport-grid">
@@ -150,23 +156,173 @@ h1{font-size:22px;font-weight:500;margin-bottom:4px}
   <div id="vogel-steps"></div>
 </div>
 
+<!-- ══ RED DE NODOS ════════════════════════════════════ -->
+<div id="panel-red" class="panel">
+  <div class="legend" style="margin-bottom:16px">
+    <span><span class="legend-dot" style="background:#E6F1FB;border:1px solid #185FA5"></span>Fuentes de oferta</span>
+    <span><span class="legend-dot" style="background:#E1F5EE;border:1px solid #0F6E56"></span>Destinos de demanda</span>
+    <span style="display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:28px;height:2.5px;background:#E24B4A;border-radius:2px"></span>Ruta usada</span>
+    <span style="display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:28px;height:1px;background:#B4B2A9;border-radius:2px;border-top:1px dashed #B4B2A9"></span>Ruta no usada</span>
+  </div>
+  <div class="net-wrap">
+    <svg width="100%" viewBox="0 0 760 560" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="au" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#E24B4A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+        <marker id="an" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="#B4B2A9" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+
+      <!-- section labels -->
+      <text x="110" y="26" text-anchor="middle" font-size="12" font-weight="500" fill="#888" font-family="sans-serif">Fuentes (oferta)</text>
+      <text x="650" y="26" text-anchor="middle" font-size="12" font-weight="500" fill="#888" font-family="sans-serif">Destinos (demanda)</text>
+      <line x1="380" y1="38" x2="380" y2="530" stroke="#e0e0e0" stroke-width="0.5" stroke-dasharray="4 4"/>
+
+      <!-- ── UNUSED ARCS ── -->
+      <!-- La Estrella → El Tesoro -->
+      <path d="M210 108 C310 108 340 230 518 228" fill="none" stroke="#D3D1C7" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#an)"/>
+      <rect x="316" y="152" width="68" height="26" rx="3" fill="white" opacity="0.9"/>
+      <text x="350" y="162" text-anchor="middle" font-size="10" fill="#B4B2A9" font-family="sans-serif">$6.500</text>
+      <text x="350" y="173" text-anchor="middle" font-size="10" fill="#B4B2A9" font-family="sans-serif">0 prendas</text>
+
+      <!-- Itagüí → El Tesoro -->
+      <path d="M210 208 C300 208 340 228 518 228" fill="none" stroke="#D3D1C7" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#an)"/>
+      <rect x="304" y="190" width="68" height="26" rx="3" fill="white" opacity="0.9"/>
+      <text x="338" y="200" text-anchor="middle" font-size="10" fill="#B4B2A9" font-family="sans-serif">$7.000</text>
+      <text x="338" y="211" text-anchor="middle" font-size="10" fill="#B4B2A9" font-family="sans-serif">0 prendas</text>
+
+      <!-- Itagüí → Mayorca -->
+      <path d="M210 218 C300 250 340 370 518 368" fill="none" stroke="#D3D1C7" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#an)"/>
+      <rect x="302" y="294" width="68" height="26" rx="3" fill="white" opacity="0.9"/>
+      <text x="336" y="304" text-anchor="middle" font-size="10" fill="#B4B2A9" font-family="sans-serif">$4.000</text>
+      <text x="336" y="315" text-anchor="middle" font-size="10" fill="#B4B2A9" font-family="sans-serif">0 prendas</text>
+
+      <!-- Bello → Santafé -->
+      <path d="M210 308 C310 308 340 118 518 112" fill="none" stroke="#D3D1C7" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#an)"/>
+      <rect x="302" y="196" width="68" height="26" rx="3" fill="white" opacity="0.9"/>
+      <text x="336" y="206" text-anchor="middle" font-size="10" fill="#B4B2A9" font-family="sans-serif">$8.000</text>
+      <text x="336" y="217" text-anchor="middle" font-size="10" fill="#B4B2A9" font-family="sans-serif">0 prendas</text>
+
+      <!-- Bello → Mayorca -->
+      <path d="M210 328 C300 350 340 378 518 376" fill="none" stroke="#D3D1C7" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#an)"/>
+      <rect x="306" y="350" width="68" height="26" rx="3" fill="white" opacity="0.9"/>
+      <text x="340" y="360" text-anchor="middle" font-size="10" fill="#B4B2A9" font-family="sans-serif">$9.000</text>
+      <text x="340" y="371" text-anchor="middle" font-size="10" fill="#B4B2A9" font-family="sans-serif">0 prendas</text>
+
+      <!-- Envigado → Santafé -->
+      <path d="M210 408 C300 408 340 128 518 120" fill="none" stroke="#D3D1C7" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#an)"/>
+      <rect x="302" y="248" width="68" height="26" rx="3" fill="white" opacity="0.9"/>
+      <text x="336" y="258" text-anchor="middle" font-size="10" fill="#B4B2A9" font-family="sans-serif">$4.500</text>
+      <text x="336" y="269" text-anchor="middle" font-size="10" fill="#B4B2A9" font-family="sans-serif">0 prendas</text>
+
+      <!-- ── USED ARCS ── -->
+      <!-- La Estrella → Santafé  600 -->
+      <path d="M210 98 C320 98 400 110 516 110" fill="none" stroke="#E24B4A" stroke-width="2.5" marker-end="url(#au)"/>
+      <rect x="306" y="74" width="112" height="30" rx="3" fill="white" opacity="0.95"/>
+      <text x="362" y="85" text-anchor="middle" font-size="11" font-weight="500" fill="#A32D2D" font-family="sans-serif">600 prendas</text>
+      <text x="362" y="97" text-anchor="middle" font-size="10" fill="#791F1F" font-family="sans-serif">$4.000 · sub $2.4M</text>
+
+      <!-- La Estrella → Mayorca  1200 -->
+      <path d="M210 128 C300 140 340 330 516 362" fill="none" stroke="#E24B4A" stroke-width="2.5" marker-end="url(#au)"/>
+      <rect x="272" y="224" width="112" height="30" rx="3" fill="white" opacity="0.95"/>
+      <text x="328" y="235" text-anchor="middle" font-size="11" font-weight="500" fill="#A32D2D" font-family="sans-serif">1.200 prendas</text>
+      <text x="328" y="247" text-anchor="middle" font-size="10" fill="#791F1F" font-family="sans-serif">$3.000 · sub $3.6M</text>
+
+      <!-- Itagüí → Santafé  1200 -->
+      <path d="M210 198 C320 198 400 128 516 120" fill="none" stroke="#E24B4A" stroke-width="2.5" marker-end="url(#au)"/>
+      <rect x="294" y="148" width="112" height="30" rx="3" fill="white" opacity="0.95"/>
+      <text x="350" y="159" text-anchor="middle" font-size="11" font-weight="500" fill="#A32D2D" font-family="sans-serif">1.200 prendas</text>
+      <text x="350" y="171" text-anchor="middle" font-size="10" fill="#791F1F" font-family="sans-serif">$3.500 · sub $4.2M</text>
+
+      <!-- Bello → El Tesoro  900 -->
+      <path d="M210 318 C320 318 400 242 516 240" fill="none" stroke="#E24B4A" stroke-width="2.5" marker-end="url(#au)"/>
+      <rect x="290" y="270" width="106" height="30" rx="3" fill="white" opacity="0.95"/>
+      <text x="343" y="281" text-anchor="middle" font-size="11" font-weight="500" fill="#A32D2D" font-family="sans-serif">900 prendas</text>
+      <text x="343" y="293" text-anchor="middle" font-size="10" fill="#791F1F" font-family="sans-serif">$5.000 · sub $4.5M</text>
+
+      <!-- Envigado → El Tesoro  700 -->
+      <path d="M210 408 C320 408 400 256 516 250" fill="none" stroke="#E24B4A" stroke-width="2.5" marker-end="url(#au)"/>
+      <rect x="288" y="318" width="106" height="30" rx="3" fill="white" opacity="0.95"/>
+      <text x="341" y="329" text-anchor="middle" font-size="11" font-weight="500" fill="#A32D2D" font-family="sans-serif">700 prendas</text>
+      <text x="341" y="341" text-anchor="middle" font-size="10" fill="#791F1F" font-family="sans-serif">$2.500 · sub $1.75M</text>
+
+      <!-- Envigado → Mayorca  100 -->
+      <path d="M210 428 C320 428 400 386 516 384" fill="none" stroke="#E24B4A" stroke-width="2.5" marker-end="url(#au)"/>
+      <rect x="290" y="398" width="106" height="30" rx="3" fill="white" opacity="0.95"/>
+      <text x="343" y="409" text-anchor="middle" font-size="11" font-weight="500" fill="#A32D2D" font-family="sans-serif">100 prendas</text>
+      <text x="343" y="421" text-anchor="middle" font-size="10" fill="#791F1F" font-family="sans-serif">$3.500 · sub $0.35M</text>
+
+      <!-- ── SOURCE NODES ── -->
+      <!-- La Estrella -->
+      <rect x="20" y="72" width="190" height="56" rx="10" fill="#E6F1FB" stroke="#185FA5" stroke-width="1"/>
+      <text x="115" y="96" text-anchor="middle" font-size="13" font-weight="500" fill="#0C447C" font-family="sans-serif">La Estrella</text>
+      <text x="115" y="114" text-anchor="middle" font-size="11" fill="#185FA5" font-family="sans-serif">Oferta: 1.800 prendas</text>
+
+      <!-- Itagüí -->
+      <rect x="20" y="172" width="190" height="56" rx="10" fill="#E6F1FB" stroke="#185FA5" stroke-width="1"/>
+      <text x="115" y="196" text-anchor="middle" font-size="13" font-weight="500" fill="#0C447C" font-family="sans-serif">Bodega Itagüí</text>
+      <text x="115" y="214" text-anchor="middle" font-size="11" fill="#185FA5" font-family="sans-serif">Oferta: 1.200 prendas</text>
+
+      <!-- Bello -->
+      <rect x="20" y="282" width="190" height="56" rx="10" fill="#E6F1FB" stroke="#185FA5" stroke-width="1"/>
+      <text x="115" y="306" text-anchor="middle" font-size="13" font-weight="500" fill="#0C447C" font-family="sans-serif">Bodega Bello</text>
+      <text x="115" y="324" text-anchor="middle" font-size="11" fill="#185FA5" font-family="sans-serif">Oferta: 900 prendas</text>
+
+      <!-- Envigado -->
+      <rect x="20" y="382" width="190" height="56" rx="10" fill="#E6F1FB" stroke="#185FA5" stroke-width="1"/>
+      <text x="115" y="406" text-anchor="middle" font-size="13" font-weight="500" fill="#0C447C" font-family="sans-serif">Bodega Envigado</text>
+      <text x="115" y="424" text-anchor="middle" font-size="11" fill="#185FA5" font-family="sans-serif">Oferta: 800 prendas</text>
+
+      <!-- ── DESTINATION NODES ── -->
+      <!-- Santafé -->
+      <rect x="550" y="82" width="190" height="56" rx="10" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1"/>
+      <text x="645" y="106" text-anchor="middle" font-size="13" font-weight="500" fill="#085041" font-family="sans-serif">Tienda Santafé</text>
+      <text x="645" y="124" text-anchor="middle" font-size="11" fill="#0F6E56" font-family="sans-serif">Demanda: 1.800 prendas</text>
+
+      <!-- El Tesoro -->
+      <rect x="550" y="202" width="190" height="56" rx="10" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1"/>
+      <text x="645" y="226" text-anchor="middle" font-size="13" font-weight="500" fill="#085041" font-family="sans-serif">Tienda El Tesoro</text>
+      <text x="645" y="244" text-anchor="middle" font-size="11" fill="#0F6E56" font-family="sans-serif">Demanda: 1.600 prendas</text>
+
+      <!-- Mayorca -->
+      <rect x="550" y="342" width="190" height="56" rx="10" fill="#E1F5EE" stroke="#0F6E56" stroke-width="1"/>
+      <text x="645" y="366" text-anchor="middle" font-size="13" font-weight="500" fill="#085041" font-family="sans-serif">Tienda Mayorca</text>
+      <text x="645" y="384" text-anchor="middle" font-size="11" fill="#0F6E56" font-family="sans-serif">Demanda: 1.300 prendas</text>
+
+      <!-- ── TOTALS BAR ── -->
+      <rect x="20" y="470" width="720" height="60" rx="8" fill="none" stroke="#e0e0e0" stroke-width="0.5"/>
+      <text x="50" y="496" font-size="12" fill="#666" font-family="sans-serif">Rutas usadas: 6 de 12</text>
+      <text x="50" y="516" font-size="12" fill="#666" font-family="sans-serif">Prendas distribuidas: 4.700</text>
+      <line x1="240" y1="476" x2="240" y2="524" stroke="#e0e0e0" stroke-width="0.5"/>
+      <text x="260" y="496" font-size="12" fill="#666" font-family="sans-serif">Oferta total = Demanda total = 4.700</text>
+      <text x="260" y="516" font-size="12" fill="#666" font-family="sans-serif">Problema balanceado</text>
+      <line x1="530" y1="476" x2="530" y2="524" stroke="#e0e0e0" stroke-width="0.5"/>
+      <text x="550" y="496" font-size="12" fill="#666" font-family="sans-serif">Rutas no usadas: 6</text>
+      <text x="550" y="516" font-size="13" font-weight="500" fill="#A32D2D" font-family="sans-serif">Costo total: $16.800.000</text>
+    </svg>
+  </div>
+</div>
+
+<!-- ══ COSTOS ══════════════════════════════════════════ -->
 <div id="panel-costos" class="panel">
   <div class="section-title">Costos del proyecto por categoría</div>
   <div style="background:#fff;border-radius:10px;border:1px solid #e8e8e8;padding:16px;margin-bottom:20px">
     <div style="display:flex;flex-wrap:wrap;gap:12px;font-size:12px;color:#666;margin-bottom:12px" id="cost-legend"></div>
     <div style="position:relative;width:100%;height:260px">
-      <canvas id="costChart" role="img" aria-label="Costos por categoría del proyecto">Backend $4.5M, Frontend $4M, Gestión $3.5M, UI/UX $2.5M, QA $2M, Infraestructura $1.2M, Herramientas $0.8M</canvas>
+      <canvas id="costChart" role="img" aria-label="Costos por categoría">Backend $4.5M, Frontend $4M, Gestión $3.5M, UI/UX $2.5M, QA $2M, Infraestructura $1.2M, Herramientas $0.8M</canvas>
     </div>
   </div>
   <div class="section-title">Distribución de prendas</div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
     <div style="background:#fff;border-radius:10px;border:1px solid #e8e8e8;padding:16px">
       <div style="font-size:13px;font-weight:500;margin-bottom:8px;text-align:center">Por destino</div>
-      <div style="position:relative;height:200px"><canvas id="demandChart" role="img" aria-label="Distribución por destino">Santafé 1800, El Tesoro 1600, Mayorca 1300</canvas></div>
+      <div style="position:relative;height:200px"><canvas id="demandChart" role="img" aria-label="Por destino">Santafé 1800, El Tesoro 1600, Mayorca 1300</canvas></div>
     </div>
     <div style="background:#fff;border-radius:10px;border:1px solid #e8e8e8;padding:16px">
       <div style="font-size:13px;font-weight:500;margin-bottom:8px;text-align:center">Por fuente</div>
-      <div style="position:relative;height:200px"><canvas id="supplyChart" role="img" aria-label="Distribución por fuente">La Estrella 1800, Itagüí 1200, Bello 900, Envigado 800</canvas></div>
+      <div style="position:relative;height:200px"><canvas id="supplyChart" role="img" aria-label="Por fuente">La Estrella 1800, Itagüí 1200, Bello 900, Envigado 800</canvas></div>
     </div>
   </div>
 </div>
@@ -211,7 +367,7 @@ function buildGantt(){
     if(a.crit)tr.className='critical-row';
     const left=((a.es-1)/TOTAL*100).toFixed(1);
     const width=(a.dur/TOTAL*100).toFixed(1);
-    tr.innerHTML=`<td style="font-weight:500">${a.id}</td><td>${a.name}</td><td style="color:#888">${a.res}</td><td>${a.dur}</td><td>${a.es}</td><td>${a.ef}</td><td><span class="badge ${a.crit?'badge-red':'badge-blue'}">${a.sl===0?'Crítica':a.sl+' días'}</span></td><td class="bar-cell"><div class="bar-wrap"><div class="bar ${a.crit?'bar-crit':'bar-norm'}" style="left:${left}%;width:${width}%" title="${a.name}: día ${a.es}–${a.ef}"></div></div></td>`;
+    tr.innerHTML=`<td style="font-weight:500">${a.id}</td><td>${a.name}</td><td style="color:#888">${a.res}</td><td>${a.dur}</td><td>${a.es}</td><td>${a.ef}</td><td><span class="badge ${a.crit?'badge-red':'badge-blue'}">${a.sl===0?'Crítica':a.sl+' días'}</span></td><td class="bar-cell"><div class="bar-wrap"><div class="bar ${a.crit?'bar-crit':'bar-norm'}" style="left:${left}%;width:${width}%"></div></div></td>`;
     tb.appendChild(tr);
   });
 }
@@ -230,10 +386,10 @@ function buildVogel(){
   const steps=[
     {iter:1,type:"Fila",chip:"",pen:"3.000",who:"Bello",assign:"900 prendas: Bello → El Tesoro",cost:"$5.000",result:"Bello queda agotada. El Tesoro aún necesita 700 prendas."},
     {iter:2,type:"Columna",chip:"pen-chip-col",pen:"4.500",who:"El Tesoro",assign:"700 prendas: Envigado → El Tesoro",cost:"$2.500",result:"El Tesoro satisfecha. Envigado tiene 100 prendas sobrantes."},
-    {iter:3,type:"Fila",chip:"",pen:"1.500",who:"La Estrella",assign:"1.200 prendas: La Estrella → Mayorca",cost:"$3.000",result:"Mayorca satisfecha (Envigado ya aportó 100). La Estrella tiene 600 sobrantes."},
+    {iter:3,type:"Fila",chip:"",pen:"1.500",who:"La Estrella",assign:"1.200 prendas: La Estrella → Mayorca",cost:"$3.000",result:"Mayorca satisfecha. La Estrella tiene 600 sobrantes."},
     {iter:4,type:"Columna",chip:"pen-chip-col",pen:"500",who:"Santafé",assign:"600 prendas: La Estrella → Santafé",cost:"$4.000",result:"La Estrella agotada."},
     {iter:5,type:"Fila",chip:"",pen:"500",who:"Itagüí",assign:"1.200 prendas: Itagüí → Santafé",cost:"$3.500",result:"Itagüí agotada. Santafé satisfecha."},
-    {iter:6,type:"Cierre",chip:"",pen:"—",who:"Envigado",assign:"100 prendas: Envigado → Mayorca",cost:"$3.500",result:"Todas las fuentes y destinos satisfechos. Solución completa."},
+    {iter:6,type:"Cierre",chip:"",pen:"—",who:"Envigado",assign:"100 prendas: Envigado → Mayorca",cost:"$3.500",result:"Todas las fuentes y destinos satisfechos."},
   ];
   const cont=document.getElementById('vogel-steps');
   steps.forEach(s=>{
